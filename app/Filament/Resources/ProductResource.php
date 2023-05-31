@@ -36,7 +36,9 @@ class ProductResource extends Resource
                 Tables\Columns\TextColumn::make('name')
                     ->sortable()
                     ->searchable(),
-                Tables\Columns\TextColumn::make('price')->sortable(),
+                Tables\Columns\TextColumn::make('price')
+                    ->sortable()
+                ->money('mmk'),
             ])
             ->defaultSort('price', 'desc')
             ->filters([
