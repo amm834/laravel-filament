@@ -29,7 +29,8 @@ class VocherResource extends Resource
                     ->numeric()
                     ->required()
                     ->maxLength(100)
-                    ->minLength(0),
+                    ->minLength(0)
+                    ->label('Discount (%)'),
                 Forms\Components\Select::make('product_id')
                     ->relationship('product', 'name')
                     ->required()
@@ -42,7 +43,7 @@ class VocherResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('code'),
-                Tables\Columns\TextColumn::make('discount_percent'),
+                Tables\Columns\TextColumn::make('discount_percent')->label('Discount (%)'),
                 Tables\Columns\TextColumn::make('product.name'),
             ])
             ->filters([
