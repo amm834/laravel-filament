@@ -32,15 +32,20 @@ class PaymentResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('created_at')->dateTime(),
-                Tables\Columns\TextColumn::make('product.name'),
-                Tables\Columns\TextColumn::make('user.name')->label('User Name')->searchable()->sortable(),
-                Tables\Columns\TextColumn::make('user.email')->label('User Email')->searchable()->sortable(),
+                Tables\Columns\TextColumn::make('product.name')
+                    ->url(fn(Payment $record) => ProductResource::getUrl('edit', ['record' => $record->product])),
+                Tables\Columns\TextColumn::make('user.name')->label('User Name')
+                    ->searchable()
+                    ->sortable(),
+                Tables\Columns\TextColumn::make('user.email')->label('User Email')
+                    ->searchable()
+                    ->sortable(),
                 Tables\Columns\TextColumn::make('vocher.code')->label('Voucher'),
                 Tables\Columns\TextColumn::make('subtotal')->money('MMK'),
                 Tables\Columns\TextColumn::make('total')->money('MMK')
                     ->sortable()
             ])
-            ->defaultSort('total','desc')
+            ->defaultSort('total', 'desc')
             ->filters([
                 Filter::make('created_at')
                     ->form([
@@ -51,11 +56,11 @@ class PaymentResource extends Resource
                         return $query
                             ->when(
                                 $data['created_from'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '>=', $date),
                             )
                             ->when(
                                 $data['created_until'],
-                                fn (Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
+                                fn(Builder $query, $date): Builder => $query->whereDate('created_at', '<=', $date),
                             );
                     })
             ])
@@ -81,6 +86,6 @@ class PaymentResource extends Resource
 
     public static function canCreate(): bool
     {
-        return  false;
+        return false;
     }
 }
