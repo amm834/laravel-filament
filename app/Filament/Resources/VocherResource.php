@@ -24,12 +24,19 @@ class VocherResource extends Resource
         return $form
             ->schema([
                 Forms\Components\TextInput::make('code')
-                    ->required(),
+                    ->required()
+                    ->unique(),
                 Forms\Components\TextInput::make('discount_percent')
                     ->numeric()
                     ->required()
                     ->maxLength(100)
                     ->minLength(0)
+                    ->default(10)
+                    ->extraAttributes([
+                        'min' => 0,
+                        'max' => 100,
+                        'step' => 1,
+                    ])
                     ->label('Discount (%)'),
                 Forms\Components\Select::make('product_id')
                     ->relationship('product', 'name')
@@ -45,6 +52,9 @@ class VocherResource extends Resource
                 Tables\Columns\TextColumn::make('code'),
                 Tables\Columns\TextColumn::make('discount_percent')->label('Discount (%)'),
                 Tables\Columns\TextColumn::make('product.name'),
+                Tables\Columns\TextColumn::make('payments_count')
+                    ->counts('payments')
+                    ->label('Times Used'),
             ])
             ->filters([
                 //
