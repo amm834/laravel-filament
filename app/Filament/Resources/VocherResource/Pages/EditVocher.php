@@ -17,6 +17,14 @@ class EditVocher extends EditRecord
         ];
     }
 
+    public function beforeFill()
+    {
+        if ($this->record->payments()->exists()) {
+            $this->notify('danger','Cannot edit code after user payment has been made');
+            $this->redirect($this->getResource()::getUrl('index'));
+        }
+    }
+
     protected function getRedirectUrl(): string
     {
         return $this->getResource()::getUrl('index');
