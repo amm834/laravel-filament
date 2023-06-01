@@ -42,6 +42,7 @@ class PaymentResource extends Resource
                     ->sortable(),
                 Tables\Columns\TextColumn::make('vocher.code')->label('Voucher'),
                 Tables\Columns\TextColumn::make('subtotal')->money('MMK'),
+                Tables\Columns\TextColumn::make('taxes')->money('MMK'),
                 Tables\Columns\TextColumn::make('total')->money('MMK')
                     ->sortable()
             ])
